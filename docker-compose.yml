@@ -1,0 +1,61 @@
+networks:
+  lar-network:
+    driver: bridge
+    name: lar_network
+
+services:
+  lar_nginx:
+    container_name: lar_nginx
+    build:
+      context: ./
+      dockerfile: docker/nginx/Dockerfile
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - "81:80"
+    expose:
+      - 81
+    networks:
+      - lar-network
+    depends_on:
+      lar: { condition: service_started }
+
+  lar:
+    container_name: lar
+    build:
+      context: ./
+      dockerfile: ./docker/php-fpm/Dockerfile
+    networks:
+      - lar-network
+    expose:
+      - 9010
+    depends_on:
+        lar_db: { condition: service_started }
+    volumes:
+      - ./:/var/www/html
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+
+
+  lar_db:
+    container_name: lar_db
+    image: mysql
+    ports:
+     - '3310:3306'
+    environment:
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_USER: 'laravel'
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+    networks:
+      - lar-network
+    volumes:
+     - ./docker/mysql/data:/var/lib/mysql/
+
+
+volumes:
+  db-data: {}
+  redis-data: {}
+  tmp-data: {}
