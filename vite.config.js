@@ -14,7 +14,7 @@ export default defineConfig({
         vuePlugin(),
         svgLoader(),
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js'],
+            input: ['resources/fonts/inter/stylesheet.css', 'resources/js/app.js'],
             refresh: true,
         }),
     ],
@@ -29,9 +29,6 @@ export default defineConfig({
         preprocessorOptions: {
             scss: {
                 additionalData: '@import "@scss/main.scss";'
-            },
-            stylus: {
-                additionalData: '@import "@/fonts/inter/stylesheet.css";'
             }
         }
     }
