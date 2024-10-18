@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Models\BookDepartments;
+use App\Models\BookDepartment;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('{any?}', function () {
+    return view('index');
+})->where('any', '.*');

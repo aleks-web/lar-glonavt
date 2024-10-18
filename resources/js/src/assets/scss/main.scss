@@ -1,0 +1,37 @@
+/*
+    Include settings
+*/
+@import "settings/global.scss";
+@import "settings/normalize.scss";
+@import "settings/vars.scss";
+
+/*
+    Include components
+*/
+@import "components/btns.scss";
+@import "components/checkbox.scss";
+@import "components/inputs.scss";
+@import "components/btns.scss";
+
+/*
+    Include regions
+*/
+@import "regions.scss";
+
+/*
+    Include blocks
+*/
+@import "blocks/block-info.scss";
+@import "blocks/comments.scss";
+@import "blocks/content.scss";
+@import "blocks/control.scss";
+@import "blocks/header.scss";
+@import "blocks/modals.scss";
+@import "blocks/tables.scss";
+@import "blocks/tabs.scss";
+
+/*
+    Include pages
+*/
+@import "pages/module_authorization.scss";
+@import "pages/module_statistics.scss";

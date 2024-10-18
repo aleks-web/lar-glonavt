@@ -1,0 +1,178 @@
+<template>
+    <div class="menu">
+        <ul class="menu__list">
+
+            <li class="menu__item">
+                <router-link to="/" class="menu__item-link">
+                    <span class="menu__item-left">
+                        <span class="menu__item-title">Главная</span>
+                    </span>
+                </router-link>
+
+                <router-link to="/clients" class="menu__item-link">
+                    <span class="menu__item-left">
+                        <span class="menu__item-title">Клиенты</span>
+                    </span>
+                </router-link>
+            </li>
+
+        </ul>
+    </div>
+</template>
+
+<script>
+import {defineComponent} from "vue";
+
+export default defineComponent({
+    components: {},
+    setup() {
+        return {
+            username: 'Вася'
+        }
+    }
+});
+</script>
+
+<style lang="scss">
+.menu {
+    position: relative;
+    background-color: white;
+    box-shadow: 6px 0px 18px 0px rgba(0, 0, 0, 0.15);
+    min-width: var(--menu-width);
+    height: 100dvh;
+    overflow-y: auto;
+    z-index: 2;
+
+    &::-webkit-scrollbar {
+        background-color: transparent;
+        width: 3px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--clr-11);
+        border-radius: 5px;
+    }
+
+    &__logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: var(--header-height);
+        min-height: var(--header-min-height);
+        max-height: var(--header-max-height);
+        border-bottom: 1px solid var(--clr-10);
+        overflow: hidden;
+
+        img {
+            width: 80%;
+        }
+    }
+
+    &__item-list {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        a {
+            color: var(--clr-6);
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--clr-10);
+            width: 100%;
+
+            &:hover {
+                background-color: var(--clr-4);
+            }
+        }
+    }
+
+    &__item {
+        color: var(--clr-6);
+        border-bottom: 1px solid var(--clr-10);
+
+        * {
+            transition: var(--speed) all;
+        }
+
+        &:last-child {
+            border-bottom: unset;
+        }
+
+        .menu__item-list {
+            display: none;
+        }
+
+        &--active {
+            .menu__item-arrow {
+                transform: rotate(-90deg);
+            }
+        }
+
+        &-link {
+            color: var(--clr-6);
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            &:hover {
+                background-color: var(--clr-4);
+            }
+        }
+
+        &-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        &-right {
+            display: flex;
+            align-items: center;
+
+            * {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        &-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        &-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            svg {
+                width: 24px;
+                height: 24px;
+                stroke: var(--clr-11);
+
+                &.fill {
+                    stroke: unset;
+                    fill: var(--clr-11);
+                }
+            }
+        }
+
+        &-count {
+            font-size: 1.1rem;
+            font-weight: 700;
+            opacity: 0.6;
+        }
+
+        &-arrow {
+            svg {
+                width: 1.4rem;
+                height: 1.4rem;
+                stroke: var(--clr-11);
+            }
+        }
+    }
+}
+</style>
