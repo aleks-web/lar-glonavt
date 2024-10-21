@@ -152,3 +152,13 @@
         }
     });
 </script>
+
+<style lang="less">
+    .layout {
+        display: flex;
+    }
+
+    .main {
+        width: 100%;
+    }
+</style>

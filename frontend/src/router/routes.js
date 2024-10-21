@@ -5,6 +5,7 @@ const routes = [
     {
         path: '/',
         component: MainPage,
+        meta: { title: "test" }
     },
     {
         path: '/clients',

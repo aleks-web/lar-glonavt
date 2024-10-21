@@ -9,14 +9,14 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './src/'),
-            '@scss': path.resolve(__dirname, './src/assets/scss'),
+            '@less': path.resolve(__dirname, './src/assets/less'),
             '@uisvg': path.resolve(__dirname, './src/assets/ui/svg')
         }
     },
     css: {
         preprocessorOptions: {
-            scss: {
-                additionalData: '@import "@scss/main.scss";'
+            less: {
+                additionalData: '@import "@less/main.less";'
             }
         }
     }
