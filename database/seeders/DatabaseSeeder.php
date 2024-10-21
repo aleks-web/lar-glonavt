@@ -111,5 +111,18 @@ class DatabaseSeeder extends Seeder
             \App\Models\User::create($user);
         }
 
+        $clients = [
+            [
+                'name' => 'Компания 1',
+                'email' => 'dok.go@yandex.ru'
+            ],
+            [
+                'name' => 'Компания 2',
+                'email' => 'dok.go@yandex.ru'
+            ],
+        ];
+        foreach ($clients as $client) {
+            \App\Models\Client::create($client);
+        }
     }
 }
