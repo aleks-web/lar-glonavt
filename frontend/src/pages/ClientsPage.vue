@@ -8,7 +8,7 @@
             </div>
 
             <div class="control__right">
-                <button class="control__btn btn" @click="btn">Добавить {{ test }}</button>
+                <button class="control__btn btn" @click="openModalClientAdd">Добавить</button>
             </div>
         </div>
     </div>
@@ -53,28 +53,29 @@
             </div>
         </div>
     </div>
+
+    <ModalClientAdd ref="ModalClientAdd" />
 </template>
 
 <script>
-import {defineComponent, onMounted, ref} from "vue";
+import {defineComponent, onMounted, ref, useTemplateRef} from "vue";
 import {globalUtil} from "@/utils/globalUtil.js";
+import ModalClientAdd from "@/components/modals/Clients/ModalClientAdd.vue";
 
 export default defineComponent({
     name: "ClientsPage",
-    components: {},
+    components: {ModalClientAdd},
     setup() {
         const {api} = globalUtil();
+        const ModalClientAdd = useTemplateRef('ModalClientAdd');
 
-        let test = ref(0);
-        const btn = () => {
-            test.value++;
+        const openModalClientAdd = () => {
+            ModalClientAdd.value.isOpen = ModalClientAdd.value.isOpen ? false : true;
         }
-
 
         onMounted( () => {
             getClients();
         });
-
 
         let clients = ref([]);
         const getClients = async () => {
@@ -83,8 +84,7 @@ export default defineComponent({
 
         return {
             clients,
-            test,
-            btn
+            openModalClientAdd
         };
     }
 });

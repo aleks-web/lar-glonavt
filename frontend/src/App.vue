@@ -1,5 +1,6 @@
 <template>
-    <div class="layout">
+
+    <div class="layout" :class="{bg: Object.keys(openedModals.modals).length}">
         <MainMenu />
 
         <div class="main" id="main">
@@ -141,14 +142,28 @@
 </template>
 
 <script>
-    import {defineComponent, onMounted} from "vue";
+import {defineComponent, onMounted, watch} from "vue";
     import MainMenu from "@/components/MainMenu.vue";
     import Header from "@/components/Header.vue";
+    import {openedModalsStore} from "@/stores/modals.js";
+    import {userStore} from "@/stores/user.js";
+    import {globalUtil} from "@/utils/globalUtil.js";
 
-    export default defineComponent({
+export default defineComponent({
         components: {Header, MainMenu},
         setup() {
-            return {}
+            const { router } = globalUtil();
+            const openedModals = openedModalsStore();
+            const nowUserStore = userStore();
+
+            if (!nowUserStore.user.access_token) {
+                router.push('/login');
+            }
+
+            return {
+                openedModals,
+                nowUserStore
+            }
         }
     });
 </script>
@@ -156,6 +171,25 @@
 <style lang="less">
     .layout {
         display: flex;
+
+        &:before {
+            content: "";
+            position: absolute;
+            display: block;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            z-index: -10;
+            transition: 0.2s all;
+            backdrop-filter: blur(5px);
+        }
+
+        &.bg {
+            &::before {
+                background-color: rgba(51, 77, 110, 0.5);
+                z-index: 50;
+            }
+        }
     }
 
     .main {

@@ -103,6 +103,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Алексей',
                 'password' => 'admin',
+                'email' => 'dok.go@yandex.ru',
                 'post_id' => 1,
                 'tel' => '+7 919 579 8871'
             ],

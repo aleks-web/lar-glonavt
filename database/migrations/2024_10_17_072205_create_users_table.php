@@ -20,11 +20,28 @@ return new class extends Migration
             $table->bigInteger('post_id')->nullable()->unsigned()->comment('Должность');
             $table->foreign('post_id')->references('id')->on('book_posts')->onDelete('set null');
             $table->string('tel', 15)->nullable();
-            $table->string('email', 50)->nullable();
+            $table->string('email', 50)->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password')->comment('Пароль');
+            $table->rememberToken();
             $table->date('birth')->nullable()->comment('День рождения');
             $table->string('avatar_file_name', 255)->nullable()->comment('Файл аватарки');
-            $table->string('password')->comment('Пароль');
             $table->timestamps();
+        });
+
+        Schema::create('password_reset_tokens', function (Blueprint $table) {
+            $table->string('email')->primary();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
+        });
+
+        Schema::create('sessions', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->foreignId('user_id')->nullable()->index();
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
+            $table->longText('payload');
+            $table->integer('last_activity')->index();
         });
     }
 
@@ -34,5 +51,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
+        Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('sessions');
     }
 };

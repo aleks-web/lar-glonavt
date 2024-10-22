@@ -79,6 +79,6 @@ RUN mkdir -p /tmp/pear \
 ARG UNAME
 
 
-WORKDIR /var/www/html/public
+WORKDIR /var/www/html
 
 CMD ["php-fpm", "-R"]
