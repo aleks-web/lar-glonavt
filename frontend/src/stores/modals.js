@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia';
-import {ref} from 'vue';
+import {reactive, ref} from 'vue';
 
-export const openedModalsStore = defineStore('openedModals', () => {
-    let modals = ref({});
+export const usedModalsStore = defineStore('modalsStore', () => {
+    let modals = reactive({});
 
     function removeModalById(ID) {
-        if (modals.value[ID]){
-            delete modals.value[ID];
+        if (modals[ID]){
+            delete modals[ID];
         }
     }
 

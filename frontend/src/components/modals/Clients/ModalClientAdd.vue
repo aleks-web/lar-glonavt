@@ -14,9 +14,11 @@
 
 
                     <div style="display: grid; grid-template-columns: repeat(2, 1fr); column-gap: 2.5rem; row-gap: 20px;">
-                        <InputText pls="Название организации" v-model="newClient.name" required />
-                        <InputText pls="Фактический адрес" v-model="newClient.actual_address" />
-                        <InputText pls="Юредический адрес" v-model="newClient.legal_address" />
+                        <InputText pls="Название организации" v-model="newClient.name" :error="newClientErrors.name" required />
+                        <InputText pls="Email" v-model="newClient.email" :error="newClientErrors.email" />
+
+                        <Textarea pls="Фактический адрес" v-model="newClient.legal_address" />
+                        <Textarea pls="Юредический адрес" v-model="newClient.legal_address" />
                     </div>
 
                     <div style="display: grid; grid-template-columns: repeat(2, 1fr); column-gap: 2.5rem;">
@@ -46,52 +48,61 @@
 
 <script>
 import {defineComponent, ref, getCurrentInstance, watch, reactive} from "vue";
-import {openedModalsStore} from "@/stores/modals.js";
+import {usedModalsStore} from "@/stores/modals.js";
 import {useClientsStore} from "@/stores/clients.js";
 import {globalUtil} from "@/utils/globalUtil.js";
 import InputText from "@/components/ui/Input.vue";
+import Textarea from "@/components/ui/Textarea.vue";
 
 export default defineComponent({
     name: "ModalClientAdd",
-    components: {InputText},
+    components: {Textarea, InputText},
     setup() {
-        const openedModals = openedModalsStore();
+        const modalsStore = usedModalsStore();
         const currentInstance = getCurrentInstance();
         const clientStore = useClientsStore();
         const newClient = reactive({});
+        let newClientErrors = ref({});
 
         const {api} = globalUtil();
 
         /*
         * Открытие/закрытие модального окна
         * */
-        const isOpen = ref(false);
+        let isOpen = ref(modalsStore.modals.ModalClientAdd === '');
+
         const closeModal = () => {
-            isOpen.value = false;
+            isOpen.value = modalsStore.removeModalById('ModalClientAdd');
         }
+
         watch(isOpen, (newIsOpen, oldIsOpen) => {
             if (newIsOpen) {
-                openedModals.modals[currentInstance.type.name] = currentInstance.type;
+                modalsStore.modals[currentInstance.type.name] = currentInstance.type;
             }
 
             if (!newIsOpen) {
-                openedModals.removeModalById(currentInstance.type.name);
+                modalsStore.removeModalById(currentInstance.type.name);
             }
         });
-
-
-        watch(newClient, (n, o) => {
-            // console.log(n);
-        })
 
 
         function createNewClient() {
             api.Clients.createClient(newClient).then(r => {
                 clientStore.clients.push(r);
-
-                openedModals.removeModalById('ModalClientAdd');
+                closeModal();
+                newClientErrors.value = null;
             }).catch(err => {
+                let er = err.response.data.errors;
 
+                Object.entries(er).forEach(i => {
+                    let fieldName = i[0];
+                    let fieldArrayErrors = i[1];
+
+                    fieldArrayErrors.forEach((er, k) => {
+                        newClientErrors.value[fieldName] = er;
+                    });
+
+                });
             });
         }
 
@@ -99,6 +110,7 @@ export default defineComponent({
         return {
             isOpen,
             newClient,
+            newClientErrors,
             createNewClient,
             closeModal
         }

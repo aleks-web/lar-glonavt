@@ -145,7 +145,7 @@
 import {defineComponent, watch, ref} from "vue";
 import MainMenu from "@/components/MainMenu.vue";
 import Header from "@/components/Header.vue";
-import {openedModalsStore} from "@/stores/modals.js";
+import {usedModalsStore} from "@/stores/modals.js";
 import {useUserStore} from "@/stores/user.js";
 import {globalUtil} from "@/utils/globalUtil.js";
 
@@ -154,7 +154,7 @@ export default defineComponent({
         setup() {
             const isShowComponents = ref(true);
             const { router, route } = globalUtil();
-            const openedModals = openedModalsStore();
+            const openedModals = usedModalsStore();
             const nowUserStore = useUserStore();
 
             watch(() => route.path, (n, o) => {

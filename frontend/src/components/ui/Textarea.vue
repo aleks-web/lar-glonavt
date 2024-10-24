@@ -1,8 +1,7 @@
 <template>
     <div class="component-wrapper">
-        <div :class="{'input-text': true, required: required, error: error}" @click="onFocusInput">
-            <span v-if="title" class="input-text__name">{{ title }}</span>
-            <input ref="InputText" type="text" v-model="val" :placeholder="pls" @input="updateValue">
+        <div :class="{textarea: true, required: required, error: error}" @click="onFocusInput">
+            <textarea ref="InputText" cols="30" rows="8" v-model="val" :placeholder="pls" @input="updateValue">{{ val }}</textarea>
         </div>
 
         <div v-if="error" class="input-messages error input-messages--bottom">
@@ -20,10 +19,6 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-    title: {
-        type: String,
-        default: null,
-    },
     pls: {
         type: String,
         default: null
@@ -33,17 +28,13 @@ const props = defineProps({
         default: null
     },
     error: {
-        type: [String, null],
+        type: String,
         default: null
     }
 });
 
 let val = ref(props.val);
 let InputText = ref(null);
-
-watch(val, (n, o) => {
-
-})
 
 const emit = defineEmits(['update:modelValue']);
 
