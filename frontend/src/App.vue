@@ -1,6 +1,6 @@
 <template>
 
-    <div class="layout" :class="{bg: Object.keys(openedModals.modals).length}">
+    <div v-if="isShowComponents" class="layout" :class="{bg: Object.keys(openedModals.modals).length}">
         <MainMenu />
 
         <div class="main" id="main">
@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <!-- Start include footer -->
+    <router-view v-else />
 
     <!-- Start svg icons -->
     <div style="display: none;">
@@ -142,27 +142,38 @@
 </template>
 
 <script>
-import {defineComponent, onMounted, watch} from "vue";
-    import MainMenu from "@/components/MainMenu.vue";
-    import Header from "@/components/Header.vue";
-    import {openedModalsStore} from "@/stores/modals.js";
-    import {userStore} from "@/stores/user.js";
-    import {globalUtil} from "@/utils/globalUtil.js";
+import {defineComponent, watch, ref} from "vue";
+import MainMenu from "@/components/MainMenu.vue";
+import Header from "@/components/Header.vue";
+import {openedModalsStore} from "@/stores/modals.js";
+import {useUserStore} from "@/stores/user.js";
+import {globalUtil} from "@/utils/globalUtil.js";
 
 export default defineComponent({
         components: {Header, MainMenu},
         setup() {
-            const { router } = globalUtil();
+            const isShowComponents = ref(true);
+            const { router, route } = globalUtil();
             const openedModals = openedModalsStore();
-            const nowUserStore = userStore();
+            const nowUserStore = useUserStore();
 
-            if (!nowUserStore.user.access_token) {
-                router.push('/login');
+            watch(() => route.path, (n, o) => {
+                hasLogin();
+            });
+            hasLogin();
+
+            function hasLogin() {
+                if (!nowUserStore.user.access_token) {
+                    isShowComponents.value = false;
+                } else {
+                    isShowComponents.value = true;
+                }
             }
 
             return {
                 openedModals,
-                nowUserStore
+                nowUserStore,
+                isShowComponents
             }
         }
     });

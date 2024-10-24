@@ -2,15 +2,15 @@
     <div class="header">
         <div class="header__container">
             <div class="header__left">
-                <div class="header__title">Title</div>
+                <div class="header__title">{{ route.meta.title || '-' }}</div>
             </div>
 
             <div class="header__right">
                 <div class="header__account">
 
                     <div class="header__user">
-                        <span class="header__user-name">username</span>
-                        <span class="header__user-post">Post</span>
+                        <span class="header__user-name">{{ userStorage.user.name }}</span>
+                        <span class="header__user-post">{{ userStorage.post.name || '-'}}</span>
                     </div>
 
                     <div class="header__btns">
@@ -21,9 +21,9 @@
                         </div>
 
                         <div class="header__btn-logout">
-                            <a href="#" data-fancybox data-src="#fmodal-logout">
+                            <span @click="logout">
                                 <svg><use xlink:href="#svg-logout"></use></svg>
-                            </a>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -33,12 +33,21 @@
 </template>
 
 <script>
-import {defineComponent} from "vue";
+import {defineComponent, reactive} from "vue";
+import {globalUtil} from "@/utils/globalUtil.js";
+import {useUserStore} from "@/stores/user.js";
 
 export default defineComponent({
     components: {},
     setup() {
-        return {}
+        const userStorage = useUserStore();
+        const {route, router} = globalUtil();
+
+        function logout() {
+            userStorage.logout();
+        }
+
+        return {logout, userStorage, route}
     }
 });
 </script>

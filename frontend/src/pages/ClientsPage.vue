@@ -30,7 +30,7 @@
 
                     <tbody>
 
-                        <tr class="pointer" v-for="client in clients" :key="client.id">
+                        <tr class="pointer" v-for="client in clientsStore.clients" :key="client.id">
                             <td class="text-start">{{ client.id }}</td>
                             <td class="text-start">Активный</td>
 
@@ -58,32 +58,32 @@
 </template>
 
 <script>
-import {defineComponent, onMounted, ref, useTemplateRef} from "vue";
+import {defineComponent, reactive, useTemplateRef, watch} from "vue";
 import {globalUtil} from "@/utils/globalUtil.js";
+import {useClientsStore} from "@/stores/clients.js";
 import ModalClientAdd from "@/components/modals/Clients/ModalClientAdd.vue";
+import MainMenu from "@/components/MainMenu.vue";
+import Header from "@/components/Header.vue";
 
 export default defineComponent({
     name: "ClientsPage",
-    components: {ModalClientAdd},
+    components: {Header, MainMenu, ModalClientAdd},
     setup() {
         const {api} = globalUtil();
         const ModalClientAdd = useTemplateRef('ModalClientAdd');
+
+        const clientsStore = useClientsStore();
 
         const openModalClientAdd = () => {
             ModalClientAdd.value.isOpen = ModalClientAdd.value.isOpen ? false : true;
         }
 
-        onMounted( () => {
-            getClients();
-        });
-
-        let clients = ref([]);
-        const getClients = async () => {
-            clients.value = await api.Clients.getClients();
-        }
+        watch(clientsStore.clients, (n, o) => {
+            console.log(n);
+        })
 
         return {
-            clients,
+            clientsStore,
             openModalClientAdd
         };
     }
