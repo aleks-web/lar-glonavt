@@ -1,11 +1,14 @@
 import axios from "axios";
 const host = import.meta.env.VITE_BACKEND_HOST;
-const token = localStorage.getItem('access_token');
-const header = {
+
+const axiosInstance = axios.create({
+    baseURL: host,
     headers: {
-        Authorization: 'Bearer ' + token
-    }
-};
+        Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+        'Content-Type': 'application/json',
+    },
+});
+
 
 export default {
     install: (app) => {
@@ -16,7 +19,7 @@ export default {
             Auth: {
                 login: async (data) => {
                     try {
-                        const response = await axios.post(host + '/auth/login', data);
+                        const response = await axiosInstance.post('/auth/login', data);
                         return response.data;
                     } catch (err) {
                         return err.response.data;
@@ -24,14 +27,14 @@ export default {
                 },
                 logout: async () => {
                     try {
-                        const response = await axios.post(host + '/auth/logout', header);
+                        const response = await axiosInstance.post('/auth/logout');
                         return response.data;
                     } catch (err) {
                         return err.response.data;
                     }
                 },
                 me: async () => {
-                    const response = await axios.get(host + '/auth/me', header);
+                    const response = await axiosInstance.get('/auth/me');
                     return response;
                 }
             },
@@ -44,14 +47,14 @@ export default {
             Clients: {
                 getClients: async () => {
                     try {
-                        const response = await axios.get(host + '/client', header);
+                        const response = await axiosInstance.get('/client');
                         return response.data;
                     } catch (err) {
                         return err.response.data;
                     }
                 },
                 createClient: async (client) => {
-                    const response =  await axios.get(host + '/client/create', Object.assign({params: client}, header));
+                    const response =  await axiosInstance.post('/client', client);
                     return response.data;
                 }
             }

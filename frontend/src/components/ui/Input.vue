@@ -2,7 +2,7 @@
     <div class="component-wrapper">
         <div :class="{'input-text': true, required: required, error: error}" @click="onFocusInput">
             <span v-if="title" class="input-text__name">{{ title }}</span>
-            <input ref="InputText" type="text" v-model="val" :placeholder="pls" @input="updateValue">
+            <input ref="InputText" type="text" :value="props.modelValue" :placeholder="pls" @input="emit('update:modelValue', $event.target.value)">
         </div>
 
         <div v-if="error" class="input-messages error input-messages--bottom">
@@ -13,12 +13,16 @@
 </template>
 
 <script setup>
-import {defineProps, ref, watch, defineEmits} from "vue";
+import {defineProps, ref, defineEmits} from "vue";
 
-const props = defineProps({
+let props = defineProps({
     required: {
         type: Boolean,
         default: false
+    },
+    modelValue: {
+        type: String,
+        default: null
     },
     title: {
         type: String,
@@ -28,28 +32,15 @@ const props = defineProps({
         type: String,
         default: null
     },
-    val: {
-        type: String,
-        default: null
-    },
     error: {
         type: [String, null],
         default: null
     }
 });
 
-let val = ref(props.val);
 let InputText = ref(null);
 
-watch(val, (n, o) => {
-
-})
-
 const emit = defineEmits(['update:modelValue']);
-
-function updateValue() {
-    emit('update:modelValue', val.value);
-}
 
 function onFocusInput() {
     InputText.value.focus()

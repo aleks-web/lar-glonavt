@@ -23,7 +23,7 @@ class StoreClientRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:clients',
-            'email' => 'required|unique:clients|email',
+            'manager_id' => 'exists:users,id',
         ];
     }
 
@@ -32,6 +32,7 @@ class StoreClientRequest extends FormRequest
         return [
             'name.required' => 'Название организации - обязательно',
             'name.unique' => 'Компания с таким именем уже существует',
+            'manager_id.exists' => 'Такого пользователя в системе нет'
         ];
     }
 }

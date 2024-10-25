@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'middleware' => [App\Http\Middleware\Api::class],
 ], function ($router) {
-    Route::resource('client', ClientController::class);
+    Route::apiResource('client', ClientController::class);
 });
 
 

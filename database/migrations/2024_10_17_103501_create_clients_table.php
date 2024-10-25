@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name', 255)->unique()->comment('Название клиента');
             $table->integer('status')->nullable()->comment('Статус');
             $table->string('inn', 50)->nullable()->comment('ИНН компании');
-            $table->string('email', 50)->nullable()->comment('Email компании');
             $table->string('legal_address', 355)->nullable()->comment('Юридический адрес');
             $table->string('actual_address', 355)->nullable()->comment('Фактический адрес');
             $table->string('bank_name')->nullable()->comment('Название банка');

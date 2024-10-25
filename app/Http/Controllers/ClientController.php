@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreClientRequest;
 use App\Models\Client;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use Nette\Schema\ValidationException;
 
 class ClientController extends Controller
 {
@@ -18,19 +18,11 @@ class ClientController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create(StoreClientRequest $request)
-    {
-        return Client::create($request->toArray());
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreClientRequest $request)
     {
-        //
+        return Client::create($request->toArray());
     }
 
     /**
@@ -39,14 +31,6 @@ class ClientController extends Controller
     public function show(Client $client)
     {
         return $client;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Client $client)
-    {
-        //
     }
 
     /**

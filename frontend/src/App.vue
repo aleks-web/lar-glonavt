@@ -146,16 +146,14 @@ import {defineComponent, watch, ref} from "vue";
 import MainMenu from "@/components/MainMenu.vue";
 import Header from "@/components/Header.vue";
 import {usedModalsStore} from "@/stores/modals.js";
-import {useUserStore} from "@/stores/user.js";
 import {globalUtil} from "@/utils/globalUtil.js";
 
 export default defineComponent({
         components: {Header, MainMenu},
         setup() {
             const isShowComponents = ref(true);
-            const { router, route } = globalUtil();
+            const { route } = globalUtil();
             const openedModals = usedModalsStore();
-            const nowUserStore = useUserStore();
 
             watch(() => route.path, (n, o) => {
                 hasLogin();
@@ -163,7 +161,7 @@ export default defineComponent({
             hasLogin();
 
             function hasLogin() {
-                if (!nowUserStore.user.access_token) {
+                if (!localStorage.getItem('access_token')) {
                     isShowComponents.value = false;
                 } else {
                     isShowComponents.value = true;
@@ -172,7 +170,6 @@ export default defineComponent({
 
             return {
                 openedModals,
-                nowUserStore,
                 isShowComponents
             }
         }

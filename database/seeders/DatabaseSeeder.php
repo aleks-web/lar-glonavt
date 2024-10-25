@@ -115,11 +115,9 @@ class DatabaseSeeder extends Seeder
         $clients = [
             [
                 'name' => 'Компания 1',
-                'email' => 'dok.go@yandex.ru'
             ],
             [
                 'name' => 'Компания 2',
-                'email' => 'dok.go@yandex.ru'
             ],
         ];
         foreach ($clients as $client) {

@@ -78,10 +78,6 @@ export default defineComponent({
             ModalClientAdd.value.isOpen = ModalClientAdd.value.isOpen ? false : true;
         }
 
-        watch(clientsStore.clients, (n, o) => {
-            console.log(n);
-        })
-
         return {
             clientsStore,
             openModalClientAdd

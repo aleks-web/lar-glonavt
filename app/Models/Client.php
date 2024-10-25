@@ -13,7 +13,6 @@ class Client extends Model
         'name',
         'status',
         'inn',
-        'email',
         'legal_address',
         'actual_address',
         'bank_name',

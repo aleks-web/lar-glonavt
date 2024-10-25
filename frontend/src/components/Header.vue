@@ -9,8 +9,8 @@
                 <div class="header__account">
 
                     <div class="header__user">
-                        <span class="header__user-name">{{ userStorage.user.name }}</span>
-                        <span class="header__user-post">{{ userStorage.post.name || '-'}}</span>
+                        <span class="header__user-name">{{ userStore.user.name }}</span>
+                        <span class="header__user-post">{{ userStore.post.name || '-'}}</span>
                     </div>
 
                     <div class="header__btns">
@@ -33,21 +33,21 @@
 </template>
 
 <script>
-import {defineComponent, reactive} from "vue";
+import {defineComponent, ref, watch} from "vue";
 import {globalUtil} from "@/utils/globalUtil.js";
 import {useUserStore} from "@/stores/user.js";
 
 export default defineComponent({
     components: {},
     setup() {
-        const userStorage = useUserStore();
-        const {route, router} = globalUtil();
+        const userStore = useUserStore();
+        const {route} = globalUtil();
 
         function logout() {
-            userStorage.logout();
+            userStore.logout();
         }
 
-        return {logout, userStorage, route}
+        return {logout, userStore, route}
     }
 });
 </script>
