@@ -46,14 +46,8 @@ export default defineComponent({
 
         const userStore = useUserStore();
 
-        const signIn = async (l, p) => {
-            let signInResult = await api.Auth.login({email: l, password: p});
-
-            if (signInResult.success) {
-                localStorage.setItem('access_token', signInResult.access_token);
-                userStore.user.access_token = signInResult.access_token;
-                router.push('/');
-            }
+        const signIn = (email, password) => {
+            userStore.login(email, password);
         };
 
         return {

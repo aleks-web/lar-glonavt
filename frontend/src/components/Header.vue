@@ -10,7 +10,7 @@
 
                     <div class="header__user">
                         <span class="header__user-name">{{ userStore.user.name }}</span>
-                        <span class="header__user-post">{{ userStore.post.name || '-'}}</span>
+                        <span class="header__user-post">{{ userStore.user.post.name || '-'}}</span>
                     </div>
 
                     <div class="header__btns">
@@ -47,7 +47,7 @@ export default defineComponent({
             userStore.logout();
         }
 
-        return {logout, userStore, route}
+        return {logout, route, userStore}
     }
 });
 </script>

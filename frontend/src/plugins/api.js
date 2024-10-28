@@ -1,4 +1,5 @@
 import axios from "axios";
+
 const host = import.meta.env.VITE_BACKEND_HOST;
 
 const axiosInstance = axios.create({
@@ -8,7 +9,6 @@ const axiosInstance = axios.create({
         'Content-Type': 'application/json',
     },
 });
-
 
 export default {
     install: (app) => {
@@ -20,6 +20,7 @@ export default {
                 login: async (data) => {
                     try {
                         const response = await axiosInstance.post('/auth/login', data);
+                        axiosInstance.defaults.headers.Authorization = 'Bearer' + response.data.access_token;
                         return response.data;
                     } catch (err) {
                         return err.response.data;
