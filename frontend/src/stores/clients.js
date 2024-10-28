@@ -14,5 +14,17 @@ export const useClientsStore = defineStore('clientsStore',() => {
         clients.value = data;
     }
 
-    return { clients }
+    function getClientById(clientId) {
+        let clientInStore = clients.value.filter(el => {
+            return el.id == clientId;
+        });
+
+        if (clientInStore[0]) {
+            return clientInStore[0];
+        } else {
+            console.log('Клиентов в сторе нет');
+        }
+    }
+
+    return { clients, getClientById }
 });

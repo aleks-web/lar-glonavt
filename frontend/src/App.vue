@@ -1,5 +1,4 @@
 <template>
-
     <div v-if="isShowComponents" class="layout" :class="{bg: Object.keys(openedModals.modals).length}">
         <MainMenu />
 
@@ -142,7 +141,7 @@
 </template>
 
 <script>
-import {defineComponent, watch, ref} from "vue";
+import {defineComponent, watch, ref, useTemplateRef, onMounted} from "vue";
 import MainMenu from "@/components/MainMenu.vue";
 import Header from "@/components/Header.vue";
 import {usedModalsStore} from "@/stores/modals.js";

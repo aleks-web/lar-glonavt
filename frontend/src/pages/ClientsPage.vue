@@ -30,7 +30,7 @@
 
                     <tbody>
 
-                        <tr class="pointer" v-for="client in clientsStore.clients" :key="client.id">
+                        <tr class="pointer" v-for="client in clientsStore.clients" :key="client.id" @click="openModalClient(client.id)">
                             <td class="text-start">{{ client.id }}</td>
                             <td class="text-start">Активный</td>
 
@@ -55,6 +55,7 @@
     </div>
 
     <ModalClientAdd ref="ModalClientAdd" />
+    <ModalClient ref="ModalClient" />
 </template>
 
 <script>
@@ -62,25 +63,32 @@ import {defineComponent, reactive, useTemplateRef, watch} from "vue";
 import {globalUtil} from "@/utils/globalUtil.js";
 import {useClientsStore} from "@/stores/clients.js";
 import ModalClientAdd from "@/components/modals/Clients/ModalClientAdd.vue";
+import ModalClient from "@/components/modals/Clients/ModalClient.vue";
 import MainMenu from "@/components/MainMenu.vue";
 import Header from "@/components/Header.vue";
 
 export default defineComponent({
     name: "ClientsPage",
-    components: {Header, MainMenu, ModalClientAdd},
+    components: {Header, MainMenu, ModalClient, ModalClientAdd},
     setup() {
         const {api} = globalUtil();
         const ModalClientAdd = useTemplateRef('ModalClientAdd');
-
+        const ModalClient = useTemplateRef("ModalClient");
         const clientsStore = useClientsStore();
 
         const openModalClientAdd = () => {
             ModalClientAdd.value.isOpen = ModalClientAdd.value.isOpen ? false : true;
         }
 
+        const openModalClient = (id) => {
+            ModalClient.value.isOpen = true;
+            ModalClient.value.clientId = id;
+        }
+
         return {
             clientsStore,
-            openModalClientAdd
+            openModalClientAdd,
+            openModalClient
         };
     }
 });
